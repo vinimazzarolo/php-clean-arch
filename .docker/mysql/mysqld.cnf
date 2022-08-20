@@ -1,0 +1,7 @@
+# The MySQL  Server configuration file.
+#
+# For explanations see
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+[mysqld]
+# In the next file, usually you can add extra parameters to tweak your mysql configurations to meet your requirements.
