@@ -8,6 +8,7 @@ use App\Domain\ValueObjects\Email;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// Entities
 $person = new Person();
 
 $person->setName('Vinícius Mazzarolo')
@@ -15,4 +16,12 @@ $person->setName('Vinícius Mazzarolo')
     ->setCPF(new CPF('01234567890'))
     ->setBirthDate(new DateTimeImmutable('2000-07-07'));
 
-echo '<pre>'; print_r($person);
+
+// Use cases
+$personRepository = new stdClass();
+$personPdfExporter = new stdClass();
+$storage = new stdClass();
+
+$exportPersonUseCase = new ExportPerson($personRepository, $personPdfExporter, $storage);
+$input = new InputBoundary('01234567890', 'xpto', __DIR__ . '/../storage');
+$output = $exportPersonUseCase->handle($input);

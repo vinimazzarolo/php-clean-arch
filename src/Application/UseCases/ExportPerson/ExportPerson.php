@@ -4,17 +4,26 @@ declare(strict_types = 1);
 
 namespace App\Application\UseCases\ExportPerson;
 
+use App\Application\Contracts\IPersonPdfExporter;
+use App\Application\Contracts\IStorage;
 use App\Domain\Repositories\IPersonRepository;
 use App\Domain\ValueObjects\CPF;
-use DateTime;
 
 final class ExportPerson
 {
     private IPersonRepository $repository;
+    private IPersonPdfExporter $personPdfExporter;
+    private IStorage $storage;
 
-    public function __construct(IPersonRepository $repository)
+    public function __construct(
+        IPersonRepository $repository,
+        IPersonPdfExporter $personPdfExporter,
+        IStorage $storage
+        )
     {
-        $this->repository = $repository;   
+        $this->repository = $repository;
+        $this->personPdfExporter = $personPdfExporter;
+        $this->storage = $storage;   
     }
 
     public function handle(InputBoundary $input): OutputBoundary
@@ -22,11 +31,10 @@ final class ExportPerson
         $cpf = new CPF($input->getCPF());
         $person = $this->repository->getByCpf($cpf);
 
-        return new OutputBoundary([
-            'name' => $person->getName(),
-            'email' => (string) $person->getEmail(),
-            'cpf' => (string) $person->getCPF(),
-            'birthDate' => $person->getBirthDate()->format(DateTime::ATOM)
-        ]);
+        $fileContent = $this->personPdfExporter->generate($person);
+
+        $this->storage->store($input->getPdfFilename(), $input->getPdfPath(), $fileContent);
+
+        return new OutputBoundary($input->getPdfPath() . DIRECTORY_SEPARATOR . $input->getPdfFilename());
     }
 }
