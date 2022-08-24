@@ -1,5 +1,7 @@
 <?php
 
+use App\Application\UseCases\ExportPerson\ExportPerson;
+use App\Application\UseCases\ExportPerson\InputBoundary;
 use App\Domain\Entities\Person;
 use App\Domain\ValueObjects\CPF;
 use App\Domain\ValueObjects\Email;
