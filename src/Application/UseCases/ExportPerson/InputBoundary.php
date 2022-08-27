@@ -17,7 +17,7 @@ final class InputBoundary
         $this->pdfPath = $pdfPath;
     }
 
-    public function getCPF(): string
+    public function getCpf(): string
     {
         return $this->cpf;
     }

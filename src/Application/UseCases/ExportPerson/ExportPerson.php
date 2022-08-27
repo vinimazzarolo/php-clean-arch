@@ -7,7 +7,7 @@ namespace App\Application\UseCases\ExportPerson;
 use App\Application\Contracts\IPersonPdfExporter;
 use App\Application\Contracts\IStorage;
 use App\Domain\Repositories\IPersonRepository;
-use App\Domain\ValueObjects\CPF;
+use App\Domain\ValueObjects\Cpf;
 
 final class ExportPerson
 {
@@ -28,7 +28,7 @@ final class ExportPerson
 
     public function handle(InputBoundary $input): OutputBoundary
     {
-        $cpf = new CPF($input->getCPF());
+        $cpf = new Cpf($input->getCpf());
         $person = $this->repository->getByCpf($cpf);
 
         $fileContent = $this->personPdfExporter->generate($person);

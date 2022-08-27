@@ -6,7 +6,7 @@ namespace App\Domain\ValueObjects;
 
 use DomainException;
 
-final class CPF
+final class Cpf
 {
     private string $cpf;
 

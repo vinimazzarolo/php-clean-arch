@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Domain\Entities;
 
-use App\Domain\ValueObjects\CPF;
+use App\Domain\ValueObjects\Cpf;
 use App\Domain\ValueObjects\Email;
 use DateTimeInterface;
 
@@ -12,7 +12,7 @@ final class Person
 {
     private string $name;
     private Email $email;
-    private CPF $cpf;
+    private Cpf $cpf;
     private DateTimeInterface $birthDate;
 
     public function getName(): string
@@ -25,7 +25,7 @@ final class Person
         return $this->email;
     }
 
-    public function getCPF(): CPF
+    public function getCpf(): Cpf
     {
         return $this->cpf;
     }
@@ -47,7 +47,7 @@ final class Person
         return $this;
     }
 
-    public function setCPF(CPF $cpf): Person
+    public function setCpf(Cpf $cpf): Person
     {
         $this->cpf = $cpf;
         return $this;

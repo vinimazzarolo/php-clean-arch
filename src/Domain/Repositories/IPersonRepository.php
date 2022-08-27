@@ -5,9 +5,9 @@ declare(strict_types = 1);
 namespace App\Domain\Repositories;
 
 use App\Domain\Entities\Person;
-use App\Domain\ValueObjects\CPF;
+use App\Domain\ValueObjects\Cpf;
 
 interface IPersonRepository
 {
-    public function getByCpf(CPF $cpf): Person;
+    public function getByCpf(Cpf $cpf): Person;
 }
