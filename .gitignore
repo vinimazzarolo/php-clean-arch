@@ -1,5 +1,6 @@
 /vendor
 /_data
 /.vscode
+/storage
 
 .env
