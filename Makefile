@@ -1,6 +1,7 @@
 .PHONY: up clean
 
 up:
+	sudo chown -R ${USER} _data
 	composer install -noa
 	docker-compose up -d --build
 
