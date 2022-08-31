@@ -12,4 +12,9 @@ final class OutputBoundary
     {
         $this->fullFilename = $fullFilename;
     }
+
+    public function getFullFilename(): string
+    {
+        return $this->fullFilename;
+    }
 }

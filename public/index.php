@@ -7,7 +7,11 @@ use App\Domain\ValueObjects\Cpf;
 use App\Domain\ValueObjects\Email;
 use App\Infra\Adapters\Html2PdfAdapter;
 use App\Infra\Adapters\LocalStorageAdapter;
+use App\Infra\Http\Controllers\ExportPersonController;
+use App\Infra\Presentation\ExportPersonPresenter;
 use App\Infra\Repositories\MySQL\PdoPersonRepository;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -42,14 +46,20 @@ $personRepository = new PdoPersonRepository($pdo);
 $personPdfExporter = new Html2PdfAdapter();
 $storage = new LocalStorageAdapter();
 
-$entity = $personRepository->getByCpf(new Cpf('04172300014'));
-
-echo '<pre>'; print_r($entity); die;
+$entity = $personRepository->getByCpf(new Cpf('01234567890'));
 
 $content = $personPdfExporter->generate($person);
 $rootDirectory = dirname(dirname(__FILE__));
 $storage->store('test.pdf',  $rootDirectory . '/storage/people', $content);
 
 $exportPersonUseCase = new ExportPerson($personRepository, $personPdfExporter, $storage);
-$input = new InputBoundary('01234567890', 'xpto', __DIR__ . '/../storage');
-$output = $exportPersonUseCase->handle($input);
+
+$request = new Request('GET', 'http://localhost');
+$response = new Response();
+
+$exportPersonPresenter = new ExportPersonPresenter();
+
+header("Content-type: application/json; charset=utf-8");
+
+$exportPersonController = new ExportPersonController($request, $response, $exportPersonUseCase);
+echo $exportPersonController->handle($exportPersonPresenter);

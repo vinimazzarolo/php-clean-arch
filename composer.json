@@ -12,6 +12,7 @@
         }
     ],
     "require": {
-        "spipu/html2pdf": "5.2.5"
+        "spipu/html2pdf": "5.2.5",
+        "guzzlehttp/psr7": "^2.4"
     }
 }
